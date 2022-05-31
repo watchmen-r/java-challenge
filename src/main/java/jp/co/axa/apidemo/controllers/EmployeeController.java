@@ -1,11 +1,12 @@
 package jp.co.axa.apidemo.controllers;
 
 import jp.co.axa.apidemo.entities.Employee;
-import jp.co.axa.apidemo.entities.EmployeeRequest;
+import jp.co.axa.apidemo.entities.RequestEmployee;
 import jp.co.axa.apidemo.services.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,7 +25,6 @@ public class EmployeeController {
     @GetMapping("/employees")
     public ResponseEntity<List<Employee>> getEmployees() {
         List<Employee> employees = employeeService.retrieveEmployees();
-        // TODO データが取れなかった時を考える
         return new ResponseEntity<List<Employee>>(employees, HttpStatus.OK);
     }
 
@@ -35,13 +35,12 @@ public class EmployeeController {
     }
 
     @PostMapping("/employees")
-    public ResponseEntity<Employee> saveEmployee(@RequestBody EmployeeRequest request) {
+    public ResponseEntity<Employee> saveEmployee(@RequestBody @Validated RequestEmployee request) {
         // TODO もっといい書き方あるはず
         Employee employee = new Employee();
-        employee.setName(request.getName());
-        employee.setSalary(request.getSalary());
-        employee.setDepartment(request.getDepartment());
-
+        request.setName(employee.getName());
+        request.setSalary(employee.getSalary());
+        request.setDepartment(employee.getDepartment());
         Employee savedEmployee = employeeService.saveEmployee(employee);
 
         return new ResponseEntity<Employee>(savedEmployee, HttpStatus.CREATED);
