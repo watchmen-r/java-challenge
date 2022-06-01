@@ -1,5 +1,6 @@
 package jp.co.axa.apidemo.entities;
 
+import lombok.Builder;
 import lombok.Data;
 
 import javax.persistence.Column;
@@ -11,6 +12,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="EMPLOYEE")
+@Builder
 @Data
 public class Employee {
 

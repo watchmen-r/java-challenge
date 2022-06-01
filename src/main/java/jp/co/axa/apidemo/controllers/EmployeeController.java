@@ -36,11 +36,10 @@ public class EmployeeController {
 
     @PostMapping("/employees")
     public ResponseEntity<Employee> saveEmployee(@RequestBody @Validated RequestEmployee request) {
-        // TODO もっといい書き方あるはず
-        Employee employee = new Employee();
-        request.setName(employee.getName());
-        request.setSalary(employee.getSalary());
-        request.setDepartment(employee.getDepartment());
+        Employee employee = Employee.builder()
+                .name(request.getName())
+                .salary(request.getSalary())
+                .department(request.getDepartment()).build();
         Employee savedEmployee = employeeService.saveEmployee(employee);
 
         return new ResponseEntity<Employee>(savedEmployee, HttpStatus.CREATED);
@@ -53,22 +52,22 @@ public class EmployeeController {
     }
 
     @PutMapping("/employees/{employeeId}")
-    public ResponseEntity<String> updateEmployee(@RequestBody Employee employee,
+    public ResponseEntity<String> updateEmployee(@RequestBody RequestEmployee request,
             @PathVariable(name = "employeeId") Long employeeId) {
         Employee existEmployee = employeeService.getEmployee(employeeId);
 
         if (existEmployee != null) {
-            // TODO もっといい書き方あるはず
-            Employee newEmployee = new Employee();
-            newEmployee.setId(employeeId);
-            newEmployee.setName(employee.getName());
-            newEmployee.setSalary(employee.getSalary());
-            newEmployee.setDepartment(employee.getDepartment());
+            Employee newEmployee = Employee.builder()
+                    .id(employeeId)
+                    .name(request.getName())
+                    .salary(request.getSalary())
+                    .department(request.getDepartment())
+                    .build();
             employeeService.updateEmployee(newEmployee);
-            return new ResponseEntity<String>("Updated", HttpStatus.OK);
+            return new ResponseEntity<String>("Successfully updated.", HttpStatus.OK);
         }
 
-        return new ResponseEntity<String>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<String>("Target ID does not exist.", HttpStatus.NO_CONTENT);
 
     }
 
