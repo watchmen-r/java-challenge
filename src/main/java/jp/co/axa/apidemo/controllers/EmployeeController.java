@@ -9,6 +9,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+
 import java.util.List;
 
 @RestController
@@ -34,7 +37,11 @@ public class EmployeeController {
         return new ResponseEntity<Employee>(employee, HttpStatus.OK);
     }
 
+    
     @PostMapping("/employees")
+    @ApiResponses(value = {
+        @ApiResponse(code = 201, message = "Success save new employee data.") })
+    @ResponseStatus(value = HttpStatus.CREATED)
     public ResponseEntity<Employee> saveEmployee(@RequestBody @Validated RequestEmployee request) {
         Employee employee = Employee.builder()
                 .name(request.getName())
@@ -51,6 +58,9 @@ public class EmployeeController {
         return new ResponseEntity<String>(HttpStatus.OK);
     }
 
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Success updates employee data."),
+        @ApiResponse(code = 204, message = "Target ID does not exist.") })
     @PutMapping("/employees/{employeeId}")
     public ResponseEntity<String> updateEmployee(@RequestBody RequestEmployee request,
             @PathVariable(name = "employeeId") Long employeeId) {
