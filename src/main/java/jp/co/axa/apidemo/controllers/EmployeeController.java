@@ -81,7 +81,7 @@ public class EmployeeController {
                     .salary(request.getSalary())
                     .department(request.getDepartment())
                     .build();
-            employeeService.updateEmployee(newEmployee);
+            employeeService.updateEmployee(newEmployee, employeeId);
             return new ResponseEntity<String>("Successfully updated.", HttpStatus.OK);
         }
 
