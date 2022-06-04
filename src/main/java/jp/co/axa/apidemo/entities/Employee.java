@@ -1,7 +1,9 @@
 package jp.co.axa.apidemo.entities;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,26 +14,22 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="EMPLOYEE")
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
 public class Employee {
 
-    @Getter
-    @Setter
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
 
-    @Getter
-    @Setter
     @Column(name="EMPLOYEE_NAME")
     private String name;
 
-    @Getter
-    @Setter
     @Column(name="EMPLOYEE_SALARY")
     private Integer salary;
 
-    @Getter
-    @Setter
     @Column(name="DEPARTMENT")
     private String department;
 

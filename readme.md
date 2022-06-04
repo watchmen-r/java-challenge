@@ -50,3 +50,16 @@ Please let us know more about your Java experience in a few sentences. For examp
 - I have 3 years experience in Java and I started to use Spring Boot from last year
 - I'm a beginner and just recently learned Spring Boot
 - I know Spring Boot very well and have been using it for many years
+
+
+### About the changes in this source code
+- Change the Swagger UI using swagger config.
+- Improve api controller.
+- Add request model for POST and PUT.
+- Add request validation for POST and PUT.
+- Add api test.
+
+### About my Java experience
+- I have 3 years experience in Java, Spring Framework, and JUnit in my work.
+- I don't have experience in Spring Boot in my work, but I have experience in it in the hobby creating api server for ranking of low carb foods.  
+https://lowcarb-recommend.com/
