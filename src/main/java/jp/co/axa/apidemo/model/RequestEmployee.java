@@ -1,4 +1,4 @@
-package jp.co.axa.apidemo.entities;
+package jp.co.axa.apidemo.model;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;

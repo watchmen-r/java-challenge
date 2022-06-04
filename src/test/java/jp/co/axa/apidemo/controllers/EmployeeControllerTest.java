@@ -12,7 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import jp.co.axa.apidemo.entities.Employee;
-import jp.co.axa.apidemo.entities.RequestEmployee;
+import jp.co.axa.apidemo.model.RequestEmployee;
 import jp.co.axa.apidemo.services.EmployeeService;
 
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -96,10 +96,25 @@ public class EmployeeControllerTest {
     }
 
     @Test
-    public void testDeleteEmployee() {
+    public void testDeleteEmployee200() {
+        Employee employee = Employee.builder()
+                .id(1L)
+                .name("test1")
+                .salary(100)
+                .department("IT")
+                .build();
+        when(employeeService.getEmployee(anyLong())).thenReturn(employee);
         doNothing().when(employeeService).deleteEmployee(anyLong());
         ResponseEntity<String> response = employeeController.deleteEmployee(1L);
         assertThat(response.getStatusCodeValue()).isEqualTo(HttpStatus.OK.value());
+    }
+
+    @Test
+    public void testDeleteEmployee204() {
+        when(employeeService.getEmployee(anyLong())).thenReturn(null);
+        ResponseEntity<String> response = employeeController.deleteEmployee(1L);
+        assertThat(response.getStatusCodeValue()).isEqualTo(HttpStatus.NO_CONTENT.value());
+        assertThat(response.getBody()).isEqualTo("Target ID does not exist.");
     }
 
     @Test

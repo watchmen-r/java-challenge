@@ -1,7 +1,7 @@
 package jp.co.axa.apidemo.controllers;
 
 import jp.co.axa.apidemo.entities.Employee;
-import jp.co.axa.apidemo.entities.RequestEmployee;
+import jp.co.axa.apidemo.model.RequestEmployee;
 import jp.co.axa.apidemo.services.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -37,10 +37,10 @@ public class EmployeeController {
         return new ResponseEntity<Employee>(employee, HttpStatus.OK);
     }
 
-    
     @PostMapping("/employees")
     @ApiResponses(value = {
-        @ApiResponse(code = 201, message = "Success save new employee data.") })
+            @ApiResponse(code = 201, message = "Success save new employee data."),
+            @ApiResponse(code = 400, message = "Bad request.") })
     @ResponseStatus(value = HttpStatus.CREATED)
     public ResponseEntity<Employee> saveEmployee(@RequestBody @Validated RequestEmployee request) {
         Employee employee = Employee.builder()
@@ -52,15 +52,23 @@ public class EmployeeController {
         return new ResponseEntity<Employee>(savedEmployee, HttpStatus.CREATED);
     }
 
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Success deletes employee data."),
+        @ApiResponse(code = 204, message = "Target ID does not exist.") })
     @DeleteMapping("/employees/{employeeId}")
     public ResponseEntity<String> deleteEmployee(@PathVariable(name = "employeeId") Long employeeId) {
+        Employee existEmployee = employeeService.getEmployee(employeeId);
+        if (existEmployee == null) {
+            return new ResponseEntity<String>("Target ID does not exist.", HttpStatus.NO_CONTENT);
+        }
         employeeService.deleteEmployee(employeeId);
         return new ResponseEntity<String>(HttpStatus.OK);
     }
 
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Success updates employee data."),
-        @ApiResponse(code = 204, message = "Target ID does not exist.") })
+            @ApiResponse(code = 200, message = "Success updates employee data."),
+            @ApiResponse(code = 204, message = "Target ID does not exist."),
+            @ApiResponse(code = 400, message = "Bad request.") })
     @PutMapping("/employees/{employeeId}")
     public ResponseEntity<String> updateEmployee(@RequestBody RequestEmployee request,
             @PathVariable(name = "employeeId") Long employeeId) {
