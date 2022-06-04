@@ -57,6 +57,7 @@ Please let us know more about your Java experience in a few sentences. For examp
 - Improve api controller.
 - Add request model for POST and PUT.
 - Add request validation for POST and PUT.
+- Add cache for service layer.
 - Add api test.
 
 ### About my Java experience

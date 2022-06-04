@@ -133,7 +133,7 @@ public class EmployeeControllerTest {
                 .salary(300)
                 .department("IT")
                 .build();
-        when(employeeService.updateEmployee(newEmployee)).thenReturn(newEmployee);
+        when(employeeService.updateEmployee(newEmployee, 1L)).thenReturn(newEmployee);
 
         RequestEmployee request = RequestEmployee.builder()
                 .name("newTest")
